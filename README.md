@@ -45,7 +45,7 @@ At this point, all the classes are usually created and can be found in the heap.
 Some tricks that are currently implemented:
 
 - Names of parameters are taken from the AST.
-- Detect redirect using `x.apply(_, argument)`. Get parameter names from the effective target.
+- Detect redirect using `fun.apply(thisArg, arguments)`. Get parameter names from the effective target.
 - Detect var-args if arguments array is used in a non-redirecting way.
 
 Some things on the TODO list:
