@@ -15,7 +15,7 @@ abstract class Object$ {
   isContainedWithinObject(other);
   isContainedWithinRect(selectionTL, selectionBR);
   setCoords();
-  callSuper(methodName);
+  callSuper(List args);
   center();
   centerH();
   centerV();
@@ -33,9 +33,9 @@ abstract class Object$ {
   intersectsWithObject(other);
   intersectsWithRect(selectionTL, selectionBR);
   setOptions(options);
-  observe(eventName, handler);
+  observe(List args);
   off(eventName, handler);
-  on(eventName, handler);
+  on(List args);
   remove();
   render(ctx, noTransform);
   setSourcePath(value);
@@ -66,7 +66,7 @@ abstract class Object$ {
 abstract class Path extends Object$ {
   factory Path(path, options) = _Path;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   render(ctx, noTransform);
   toDatalessObject(propertiesToInclude);
@@ -83,7 +83,7 @@ abstract class StaticCanvas {
 
   getActiveGroup();
   getActiveObject();
-  add();
+  add(List args);
   setBackgroundImage(url, callback, options);
   bringForward(object);
   bringToFront(object);
@@ -117,9 +117,9 @@ abstract class StaticCanvas {
   loadFromJSON(json, callback);
   getObjects();
   setOverlayImage(url, callback, options);
-  observe(eventName, handler);
+  observe(List args);
   off(eventName, handler);
-  on(eventName, handler);
+  on(List args);
   onBeforeScaleRotate();
   remove(object);
   renderAll(allOnTop);
@@ -146,7 +146,7 @@ abstract class StaticCanvas {
 abstract class Gradient {
   factory Gradient(options) = _Gradient;
 
-  callSuper(methodName);
+  callSuper(List args);
   toLiveGradient(ctx);
   toObject();
 
@@ -155,7 +155,7 @@ abstract class Gradient {
 }
 
 abstract class Point {
-  factory Point(x, y) = _Point;
+  factory Point(List args) = _Point;
 
   add(that);
   addEquals(that);
@@ -187,7 +187,7 @@ abstract class Point {
 }
 
 abstract class Intersection {
-  factory Intersection(status) = _Intersection;
+  factory Intersection(List args) = _Intersection;
 
   appendPoint(point);
   appendPoints(points);
@@ -224,7 +224,7 @@ abstract class Color {
 abstract class FreeDrawing {
   factory FreeDrawing(fabricCanvas) = _FreeDrawing;
 
-  callSuper(methodName);
+  callSuper(List args);
   convertPointsToSVGPath(points, minX, maxX, minY, maxY);
   getPathBoundingBox(points);
 }
@@ -248,7 +248,7 @@ abstract class Canvas extends StaticCanvas {
   getSelectionElement();
   toString();
 
-  static bind(thisArg) => _Canvas.bind(thisArg);
+  static bind(List args) => _Canvas.bind(args);
   static supports(methodName) => _Canvas.supports(methodName);
   static toGrayscale(canvasEl) => _Canvas.toGrayscale(canvasEl);
 }
@@ -256,7 +256,7 @@ abstract class Canvas extends StaticCanvas {
 abstract class Line extends Object$ {
   factory Line(points, options) = _Line;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   toObject(propertiesToInclude);
   toSVG();
@@ -268,7 +268,7 @@ abstract class Line extends Object$ {
 abstract class Circle extends Object$ {
   factory Circle(options) = _Circle;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   getRadiusX();
   getRadiusY();
@@ -283,7 +283,7 @@ abstract class Circle extends Object$ {
 abstract class Triangle extends Object$ {
   factory Triangle(options) = _Triangle;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   toSVG();
 
@@ -293,7 +293,7 @@ abstract class Triangle extends Object$ {
 abstract class Ellipse extends Object$ {
   factory Ellipse(options) = _Ellipse;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   render(ctx, noTransform);
   toObject(propertiesToInclude);
@@ -306,7 +306,7 @@ abstract class Ellipse extends Object$ {
 abstract class Rect extends Object$ {
   factory Rect(options) = _Rect;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   toObject(propertiesToInclude);
   toSVG();
@@ -318,7 +318,7 @@ abstract class Rect extends Object$ {
 abstract class Polyline extends Object$ {
   factory Polyline(points, options) = _Polyline;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   toObject(propertiesToInclude);
   toSVG();
@@ -330,7 +330,7 @@ abstract class Polyline extends Object$ {
 abstract class Polygon extends Object$ {
   factory Polygon(points, options) = _Polygon;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   toObject(propertiesToInclude);
   toSVG();
@@ -342,7 +342,7 @@ abstract class Polygon extends Object$ {
 abstract class PathGroup extends Path {
   factory PathGroup(paths, options) = _PathGroup;
 
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   getObjects();
   render(ctx);
@@ -362,7 +362,7 @@ abstract class Group extends Object$ {
   activateAllObjects();
   add(object);
   addWithUpdate(object);
-  callSuper(methodName);
+  callSuper(List args);
   complexity();
   contains(object);
   containsPoint(point);
@@ -390,7 +390,7 @@ abstract class Image extends Object$ {
   factory Image(element, options) = _Image;
 
   applyFilters(callback);
-  callSuper(methodName);
+  callSuper(List args);
   clone(callback, propertiesToInclude);
   complexity();
   getElement();
@@ -412,7 +412,7 @@ abstract class Text extends Object$ {
   factory Text(text, options) = _Text;
 
   setColor(value);
-  callSuper(methodName);
+  callSuper(List args);
   setFontsize(value);
   render(ctx, noTransform);
   getText();
@@ -429,7 +429,7 @@ abstract class Grayscale {
   factory Grayscale() = _Grayscale;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject() => _Grayscale.fromObject();
@@ -439,7 +439,7 @@ abstract class RemoveWhite {
   factory RemoveWhite(options) = _RemoveWhite;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _RemoveWhite.fromObject(object);
@@ -449,7 +449,7 @@ abstract class Invert {
   factory Invert() = _Invert;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject() => _Invert.fromObject();
@@ -459,7 +459,7 @@ abstract class Sepia {
   factory Sepia() = _Sepia;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject() => _Sepia.fromObject();
@@ -469,7 +469,7 @@ abstract class Sepia2 {
   factory Sepia2() = _Sepia2;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject() => _Sepia2.fromObject();
@@ -479,7 +479,7 @@ abstract class Brightness {
   factory Brightness(options) = _Brightness;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _Brightness.fromObject(object);
@@ -489,7 +489,7 @@ abstract class Noise {
   factory Noise(options) = _Noise;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _Noise.fromObject(object);
@@ -499,7 +499,7 @@ abstract class GradientTransparency {
   factory GradientTransparency(options) = _GradientTransparency;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _GradientTransparency.fromObject(object);
@@ -509,7 +509,7 @@ abstract class Tint {
   factory Tint(options) = _Tint;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _Tint.fromObject(object);
@@ -519,7 +519,7 @@ abstract class Convolute {
   factory Convolute(options) = _Convolute;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _Convolute.fromObject(object);
@@ -529,7 +529,7 @@ abstract class Pixelate {
   factory Pixelate(options) = _Pixelate;
 
   applyTo(canvasEl);
-  callSuper(methodName);
+  callSuper(List args);
   toJSON();
 
   static fromObject(object) => _Pixelate.fromObject(object);
@@ -571,7 +571,7 @@ class _Object extends _Proxy implements Object$ {
   isContainedWithinObject(other) => jsvalue.callMethod(r"isContainedWithinObject", [_(other)]);
   isContainedWithinRect(selectionTL, selectionBR) => jsvalue.callMethod(r"isContainedWithinRect", [_(selectionTL), _(selectionBR)]);
   setCoords() => jsvalue.callMethod(r"setCoords", []);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   center() => jsvalue.callMethod(r"center", []);
   centerH() => jsvalue.callMethod(r"centerH", []);
   centerV() => jsvalue.callMethod(r"centerV", []);
@@ -589,9 +589,9 @@ class _Object extends _Proxy implements Object$ {
   intersectsWithObject(other) => jsvalue.callMethod(r"intersectsWithObject", [_(other)]);
   intersectsWithRect(selectionTL, selectionBR) => jsvalue.callMethod(r"intersectsWithRect", [_(selectionTL), _(selectionBR)]);
   setOptions(options) => jsvalue.callMethod(r"setOptions", [_(options)]);
-  observe(eventName, handler) => jsvalue.callMethod(r"observe", [_(eventName), _(handler)]);
+  observe(args) => jsvalue.callMethod(r"observe", args.map(_).toList());
   off(eventName, handler) => jsvalue.callMethod(r"off", [_(eventName), _(handler)]);
-  on(eventName, handler) => jsvalue.callMethod(r"on", [_(eventName), _(handler)]);
+  on(args) => jsvalue.callMethod(r"on", args.map(_).toList());
   remove() => jsvalue.callMethod(r"remove", []);
   render(ctx, noTransform) => jsvalue.callMethod(r"render", [_(ctx), _(noTransform)]);
   setSourcePath(value) => jsvalue.callMethod(r"setSourcePath", [_(value)]);
@@ -624,7 +624,7 @@ class _Path extends _Object implements Path {
   _Path(path, options) : super.withValue(new JsObject(_constructor, [_(path), _(options)]));
   _Path.withValue(value) : super.withValue(value);
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   render(ctx, noTransform) => jsvalue.callMethod(r"render", [_(ctx), _(noTransform)]);
   toDatalessObject(propertiesToInclude) => jsvalue.callMethod(r"toDatalessObject", [_(propertiesToInclude)]);
@@ -643,7 +643,7 @@ class _StaticCanvas extends _Proxy implements StaticCanvas {
 
   getActiveGroup() => jsvalue.callMethod(r"getActiveGroup", []);
   getActiveObject() => jsvalue.callMethod(r"getActiveObject", []);
-  add() => jsvalue.callMethod(r"add", []);
+  add(args) => jsvalue.callMethod(r"add", args.map(_).toList());
   setBackgroundImage(url, callback, options) => jsvalue.callMethod(r"setBackgroundImage", [_(url), _(callback), _(options)]);
   bringForward(object) => jsvalue.callMethod(r"bringForward", [_(object)]);
   bringToFront(object) => jsvalue.callMethod(r"bringToFront", [_(object)]);
@@ -677,9 +677,9 @@ class _StaticCanvas extends _Proxy implements StaticCanvas {
   loadFromJSON(json, callback) => jsvalue.callMethod(r"loadFromJSON", [_(json), _(callback)]);
   getObjects() => jsvalue.callMethod(r"getObjects", []);
   setOverlayImage(url, callback, options) => jsvalue.callMethod(r"setOverlayImage", [_(url), _(callback), _(options)]);
-  observe(eventName, handler) => jsvalue.callMethod(r"observe", [_(eventName), _(handler)]);
+  observe(args) => jsvalue.callMethod(r"observe", args.map(_).toList());
   off(eventName, handler) => jsvalue.callMethod(r"off", [_(eventName), _(handler)]);
-  on(eventName, handler) => jsvalue.callMethod(r"on", [_(eventName), _(handler)]);
+  on(args) => jsvalue.callMethod(r"on", args.map(_).toList());
   onBeforeScaleRotate() => jsvalue.callMethod(r"onBeforeScaleRotate", []);
   remove(object) => jsvalue.callMethod(r"remove", [_(object)]);
   renderAll(allOnTop) => jsvalue.callMethod(r"renderAll", [_(allOnTop)]);
@@ -707,7 +707,7 @@ class _Gradient extends _Proxy implements Gradient {
   static JsObject _constructor = context["fabric"]["Gradient"];
   _Gradient(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toLiveGradient(ctx) => jsvalue.callMethod(r"toLiveGradient", [_(ctx)]);
   toObject() => jsvalue.callMethod(r"toObject", []);
   static forObject(obj, options) => _constructor.callMethod(r"forObject", [_(obj), _(options)]);
@@ -717,7 +717,7 @@ class _Gradient extends _Proxy implements Gradient {
 class _Point extends _Proxy implements Point {
   var jsvalue;
   static JsObject _constructor = context["fabric"]["Point"];
-  _Point(x, y) : jsvalue = new JsObject(_constructor, [_(x), _(y)]);
+  _Point(args) : jsvalue = new JsObject(_constructor, args);
 
   add(that) => jsvalue.callMethod(r"add", [_(that)]);
   addEquals(that) => jsvalue.callMethod(r"addEquals", [_(that)]);
@@ -751,7 +751,7 @@ class _Point extends _Proxy implements Point {
 class _Intersection extends _Proxy implements Intersection {
   var jsvalue;
   static JsObject _constructor = context["fabric"]["Intersection"];
-  _Intersection(status) : jsvalue = new JsObject(_constructor, [_(status)]);
+  _Intersection(args) : jsvalue = new JsObject(_constructor, args);
 
   appendPoint(point) => jsvalue.callMethod(r"appendPoint", [_(point)]);
   appendPoints(points) => jsvalue.callMethod(r"appendPoints", [_(points)]);
@@ -790,7 +790,7 @@ class _FreeDrawing extends _Proxy implements FreeDrawing {
   static JsObject _constructor = context["fabric"]["FreeDrawing"];
   _FreeDrawing(fabricCanvas) : jsvalue = new JsObject(_constructor, [_(fabricCanvas)]);
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   convertPointsToSVGPath(points, minX, maxX, minY, maxY) => jsvalue.callMethod(r"convertPointsToSVGPath", [_(points), _(minX), _(maxX), _(minY), _(maxY)]);
   getPathBoundingBox(points) => jsvalue.callMethod(r"getPathBoundingBox", [_(points)]);
 }
@@ -814,7 +814,7 @@ class _Canvas extends _StaticCanvas implements Canvas {
   getSelectionContext() => jsvalue.callMethod(r"getSelectionContext", []);
   getSelectionElement() => jsvalue.callMethod(r"getSelectionElement", []);
   toString() => jsvalue.callMethod(r"toString", []);
-  static bind(thisArg) => _constructor.callMethod(r"bind", [_(thisArg)]);
+  static bind(args) => _constructor.callMethod(r"bind", args.map(_).toList());
   static supports(methodName) => _constructor.callMethod(r"supports", [_(methodName)]);
   static toGrayscale(canvasEl) => _constructor.callMethod(r"toGrayscale", [_(canvasEl)]);
 }
@@ -823,7 +823,7 @@ class _Line extends _Object implements Line {
   static JsObject _constructor = context["fabric"]["Line"];
   _Line(points, options) : super.withValue(new JsObject(_constructor, [_(points), _(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   toObject(propertiesToInclude) => jsvalue.callMethod(r"toObject", [_(propertiesToInclude)]);
   toSVG() => jsvalue.callMethod(r"toSVG", []);
@@ -835,7 +835,7 @@ class _Circle extends _Object implements Circle {
   static JsObject _constructor = context["fabric"]["Circle"];
   _Circle(options) : super.withValue(new JsObject(_constructor, [_(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   getRadiusX() => jsvalue.callMethod(r"getRadiusX", []);
   getRadiusY() => jsvalue.callMethod(r"getRadiusY", []);
@@ -850,7 +850,7 @@ class _Triangle extends _Object implements Triangle {
   static JsObject _constructor = context["fabric"]["Triangle"];
   _Triangle(options) : super.withValue(new JsObject(_constructor, [_(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   toSVG() => jsvalue.callMethod(r"toSVG", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
@@ -860,7 +860,7 @@ class _Ellipse extends _Object implements Ellipse {
   static JsObject _constructor = context["fabric"]["Ellipse"];
   _Ellipse(options) : super.withValue(new JsObject(_constructor, [_(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   render(ctx, noTransform) => jsvalue.callMethod(r"render", [_(ctx), _(noTransform)]);
   toObject(propertiesToInclude) => jsvalue.callMethod(r"toObject", [_(propertiesToInclude)]);
@@ -873,7 +873,7 @@ class _Rect extends _Object implements Rect {
   static JsObject _constructor = context["fabric"]["Rect"];
   _Rect(options) : super.withValue(new JsObject(_constructor, [_(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   toObject(propertiesToInclude) => jsvalue.callMethod(r"toObject", [_(propertiesToInclude)]);
   toSVG() => jsvalue.callMethod(r"toSVG", []);
@@ -885,7 +885,7 @@ class _Polyline extends _Object implements Polyline {
   static JsObject _constructor = context["fabric"]["Polyline"];
   _Polyline(points, options) : super.withValue(new JsObject(_constructor, [_(points), _(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   toObject(propertiesToInclude) => jsvalue.callMethod(r"toObject", [_(propertiesToInclude)]);
   toSVG() => jsvalue.callMethod(r"toSVG", []);
@@ -897,7 +897,7 @@ class _Polygon extends _Object implements Polygon {
   static JsObject _constructor = context["fabric"]["Polygon"];
   _Polygon(points, options) : super.withValue(new JsObject(_constructor, [_(points), _(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   toObject(propertiesToInclude) => jsvalue.callMethod(r"toObject", [_(propertiesToInclude)]);
   toSVG() => jsvalue.callMethod(r"toSVG", []);
@@ -909,7 +909,7 @@ class _PathGroup extends _Path implements PathGroup {
   static JsObject _constructor = context["fabric"]["PathGroup"];
   _PathGroup(paths, options) : super.withValue(new JsObject(_constructor, [_(paths), _(options)]));
 
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   getObjects() => jsvalue.callMethod(r"getObjects", []);
   render(ctx) => jsvalue.callMethod(r"render", [_(ctx)]);
@@ -929,7 +929,7 @@ class _Group extends _Object implements Group {
   activateAllObjects() => jsvalue.callMethod(r"activateAllObjects", []);
   add(object) => jsvalue.callMethod(r"add", [_(object)]);
   addWithUpdate(object) => jsvalue.callMethod(r"addWithUpdate", [_(object)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   complexity() => jsvalue.callMethod(r"complexity", []);
   contains(object) => jsvalue.callMethod(r"contains", [_(object)]);
   containsPoint(point) => jsvalue.callMethod(r"containsPoint", [_(point)]);
@@ -957,7 +957,7 @@ class _Image extends _Object implements Image {
   _Image(element, options) : super.withValue(new JsObject(_constructor, [_(element), _(options)]));
 
   applyFilters(callback) => jsvalue.callMethod(r"applyFilters", [_(callback)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   clone(callback, propertiesToInclude) => jsvalue.callMethod(r"clone", [_(callback), _(propertiesToInclude)]);
   complexity() => jsvalue.callMethod(r"complexity", []);
   getElement() => jsvalue.callMethod(r"getElement", []);
@@ -979,7 +979,7 @@ class _Text extends _Object implements Text {
   _Text(text, options) : super.withValue(new JsObject(_constructor, [_(text), _(options)]));
 
   setColor(value) => jsvalue.callMethod(r"setColor", [_(value)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   setFontsize(value) => jsvalue.callMethod(r"setFontsize", [_(value)]);
   render(ctx, noTransform) => jsvalue.callMethod(r"render", [_(ctx), _(noTransform)]);
   getText() => jsvalue.callMethod(r"getText", []);
@@ -997,7 +997,7 @@ class _Grayscale extends _Proxy implements Grayscale {
   _Grayscale() : jsvalue = new JsObject(_constructor, []);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject() => _constructor.callMethod(r"fromObject", []);
 }
@@ -1008,7 +1008,7 @@ class _RemoveWhite extends _Proxy implements RemoveWhite {
   _RemoveWhite(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1019,7 +1019,7 @@ class _Invert extends _Proxy implements Invert {
   _Invert() : jsvalue = new JsObject(_constructor, []);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject() => _constructor.callMethod(r"fromObject", []);
 }
@@ -1030,7 +1030,7 @@ class _Sepia extends _Proxy implements Sepia {
   _Sepia() : jsvalue = new JsObject(_constructor, []);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject() => _constructor.callMethod(r"fromObject", []);
 }
@@ -1041,7 +1041,7 @@ class _Sepia2 extends _Proxy implements Sepia2 {
   _Sepia2() : jsvalue = new JsObject(_constructor, []);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject() => _constructor.callMethod(r"fromObject", []);
 }
@@ -1052,7 +1052,7 @@ class _Brightness extends _Proxy implements Brightness {
   _Brightness(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1063,7 +1063,7 @@ class _Noise extends _Proxy implements Noise {
   _Noise(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1074,7 +1074,7 @@ class _GradientTransparency extends _Proxy implements GradientTransparency {
   _GradientTransparency(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1085,7 +1085,7 @@ class _Tint extends _Proxy implements Tint {
   _Tint(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1096,7 +1096,7 @@ class _Convolute extends _Proxy implements Convolute {
   _Convolute(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }
@@ -1107,7 +1107,7 @@ class _Pixelate extends _Proxy implements Pixelate {
   _Pixelate(options) : jsvalue = new JsObject(_constructor, [_(options)]);
 
   applyTo(canvasEl) => jsvalue.callMethod(r"applyTo", [_(canvasEl)]);
-  callSuper(methodName) => jsvalue.callMethod(r"callSuper", [_(methodName)]);
+  callSuper(args) => jsvalue.callMethod(r"callSuper", args.map(_).toList());
   toJSON() => jsvalue.callMethod(r"toJSON", []);
   static fromObject(object) => _constructor.callMethod(r"fromObject", [_(object)]);
 }

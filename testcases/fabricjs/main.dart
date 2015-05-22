@@ -52,6 +52,7 @@ main() {
   canvas.add([rect1, rect2, rect3, circle, triangle]);
 
   void onChange(options) {
+    // TODO: Arguments to callback are currently raw JsObjects.
     options['target'].callMethod('setCoords', []);
     canvas.forEachObject((obj, a, b) {
       if (obj == options['target']) return;
