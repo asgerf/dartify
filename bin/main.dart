@@ -21,9 +21,22 @@ help([String msg]) {
   abort('''
 Usage:
 
-  sudo npm install -g jsnap
-  dartify FILE.js
+  dartify FILE.js > FILE.dart
+
+First-time setup:
+
+  pub get
+  npm install
 ''');
+}
+
+String findJSnapCommand() {
+  File localInstall = new File('../node_modules/jsnap/jsnap.js');
+  if (localInstall.existsSync()) {
+    return localInstall.path;
+  } else {
+    abort('jsnap not found. Please run `npm install`.');
+  }
 }
 
 main(List<String> args) {
@@ -38,7 +51,7 @@ main(List<String> args) {
   // Regenerate jsnap file if absent or older than the JS file.
   if (!jsnapFile.existsSync() || jsnapFile.lastModifiedSync().isBefore(jsFile.lastModifiedSync())) {
     try {
-      jsnapText = Process.runSync('jsnap', [jsFile.path]).stdout;
+      jsnapText = Process.runSync(findJSnapCommand(), [jsFile.path]).stdout;
     } on ProcessException catch (e) {
       abort('Error running `${e.executable} ${e.arguments.join(' ')}`.\n${e.message}');
     }
