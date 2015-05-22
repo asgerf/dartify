@@ -1,0 +1,6 @@
+{
+	"name": "dartify",
+	"dependencies": {
+		"jsnap": "~0.1.3"
+	}
+}
