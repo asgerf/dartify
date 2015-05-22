@@ -19,4 +19,8 @@ I suggest you add the following script to your PATH:
 
 Open `FILE.dart` to see your generated API. Import from Dart and have fun!
 
-See the `testcases` for some example libraries. Fabricjs has a running example.
+# Examples
+
+See the `testcases` for some example libraries.
+
+For example see [fabricjs.dart](testcases/fabricjs/fabricjs.dart) and the [example code](testcases/fabricjs/main.dart).
