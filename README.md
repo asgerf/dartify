@@ -2,6 +2,9 @@
 
 Generate Dart-JS interop classes from a JS file.
 
+This is an experimental tool to see how much information we can extract out of a raw JS library.
+(For class-based JS libraries, it's looking pretty good so far)
+
 # Installation
 
 	git clone https://github.com/asgerf/dartify
