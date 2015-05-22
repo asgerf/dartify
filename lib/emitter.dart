@@ -68,21 +68,32 @@ void emit(Program program) {
     print('abstract class $className $extendsClause{');
 
     // Print constructor.
-    String constructorParams = clazz.constructorParams.join(', ');
-    print('  factory $className($constructorParams) = _${clazz.name};');
+    if (clazz.constructorParams.isVarArgs) {
+      print('  factory $className(List args) = _${clazz.name};');
+    } else {
+      print('  factory $className(${clazz.constructorParams.paramString}) = _${clazz.name};');
+    }
 
     print(''); // Make some space.
 
     for (Method method in clazz.instanceMethods) {
       String name = getMemberName(method);
-      print('  $name(${method.paramString});');
+      if (method.parameters.isVarArgs) {
+        print('  $name(List args);');
+      } else {
+        print('  $name(${method.paramString});');
+      }
     }
     if (clazz.instanceMethods.isNotEmpty && clazz.staticMethods.isNotEmpty) {
       print('');
     }
     for (Method method in clazz.staticMethods) {
       String name = getMemberName(method);
-      print('  static $name(${method.paramString}) => $proxyName.$name(${method.paramString});');
+      if (method.parameters.isVarArgs) {
+        print('  static $name(List args) => $proxyName.$name(args);');
+      } else {
+        print('  static $name(${method.paramString}) => $proxyName.$name(${method.paramString});');
+      }
     }
 
     print('}\n');
@@ -142,9 +153,9 @@ void emit(Program program) {
     }
 
     // Print the main constructor.
-    String constructorParams = clazz.constructorParams.join(', ');
-    String arguments = clazz.constructorParams.map(unfold).join(', ');
-    print('  $proxyName($constructorParams) : ' + initValue('new JsObject(_constructor, [$arguments])') + ';');
+    String constructorParams = clazz.constructorParams.isVarArgs ? 'args' : clazz.constructorParams.paramString;
+    String arguments = clazz.constructorParams.isVarArgs ? 'args' : '[${clazz.constructorParams.names.map(unfold).join(', ')}]';
+    print('  $proxyName($constructorParams) : ' + initValue('new JsObject(_constructor, $arguments)') + ';');
 
     // Print the withValue constructor if there is a subclass who needs it.
     if (hasSubclass) {
@@ -156,14 +167,22 @@ void emit(Program program) {
     for (Method method in clazz.instanceMethods) {
       String name = getMemberName(method);
       String jsname = method.name;
-      String arguments = method.parameters.map(unfold).join(', ');
-      print('  $name(${method.paramString}) => jsvalue.callMethod(r"$jsname", [$arguments]);');
+      if (method.parameters.isVarArgs) {
+        print('  $name(args) => jsvalue.callMethod(r"$jsname", args.map(_).toList());');
+      } else {
+        String arguments = method.parameters.names.map(unfold).join(', ');
+        print('  $name(${method.paramString}) => jsvalue.callMethod(r"$jsname", [$arguments]);');
+      }
     }
     for (Method method in clazz.staticMethods) {
       String name = getMemberName(method);
       String jsname = method.name;
-      String arguments = method.parameters.map(unfold).join(', ');
-      print('  static $name(${method.paramString}) => _constructor.callMethod(r"$jsname", [$arguments]);');
+      if (method.parameters.isVarArgs) {
+        print('  static $name(args) => _constructor.callMethod(r"$jsname", args.map(_).toList());');
+      } else {
+        String arguments = method.parameters.names.map(unfold).join(', ');
+        print('  static $name(${method.paramString}) => _constructor.callMethod(r"$jsname", [$arguments]);');
+      }
     }
 
     print('}\n');

@@ -49,7 +49,7 @@ main() {
     'fill': '#cca'
   });
 
-  canvas.jsvalue.callMethod('add', [rect1.jsvalue, rect2.jsvalue, rect3.jsvalue, circle.jsvalue, triangle.jsvalue]); // TODO: infer right params for add, and have a good backdoor
+  canvas.add([rect1, rect2, rect3, circle, triangle]);
 
   void onChange(options) {
     options['target'].callMethod('setCoords', []);
@@ -59,5 +59,5 @@ main() {
     }, null);
   }
 
-  canvas.on('object:moving', onChange);
+  canvas.on(['object:moving', onChange]);
 }

@@ -74,10 +74,11 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
 
   RedirectClosure redirects = new RedirectClosure(snapshot, snapshotInfo, ast, astInfo);
 
-  List<String> getParameters(Obj function, dynamic thisArgument) {
+  Parameters getParameters(Obj function, dynamic thisArgument) {
     Method target = redirects.getTransitiveRedirect(new Method(function, thisArgument));
     FunctionNode node = astInfo.getFunction(target.function);
-    return node.params.map((Name name) => name.value);
+    List<String> params = node.params.map((Name name) => name.value);
+    return new Parameters(params, isVarArgs: redirects.usesArgumentsArray.contains(target));
   }
 
   Program program = new Program();
@@ -112,7 +113,7 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
       if (member.startsWith('init') && redirects.isRedirectTo(constructorAsMethod, prty.value)) continue; // Ignore constructor stubs.
       var value = prty.value;
       if (value is Obj && value.function is UserFunc) {
-        List<String> params = getParameters(value, prototype);
+        Parameters params = getParameters(value, prototype);
         clazz.instanceMethods.add(new model.Method(member, params));
       }
     }
@@ -124,7 +125,7 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
       Obj value = prty.value;
       if (value.function is! UserFunc) continue;
       if (constructors.contains(value)) continue; // Superclass pointer.
-      List<String> params = getParameters(value, constructor);
+      Parameters params = getParameters(value, constructor);
       clazz.staticMethods.add(new model.Method(member, params));
     }
 
@@ -466,6 +467,7 @@ class RedirectClosure {
   ast.Program ast;
   AstInfo astInfo;
   Map<Method, Method> redirectMap = <Method, Method>{};
+  Set<Method> usesArgumentsArray = new Set<Method>();
 
   RedirectClosure(this.snapshot, this.snapshotInfo, this.ast, this.astInfo);
 
@@ -475,7 +477,11 @@ class RedirectClosure {
     FunctionNode node = astInfo.getFunction(method.function);
     RedirectFinder finder = new RedirectFinder(snapshot);
     finder.analyzeFunction(node, method.function.env, method.thisArg, []);
-    return redirectMap[method] = finder.redirect;
+    redirectMap[method] = finder.redirect;
+    if (finder.usesArgumentsArray) {
+      usesArgumentsArray.add(method);
+    }
+    return finder.redirect;
   }
 
   Method getTransitiveRedirect(Method method) {
@@ -495,14 +501,28 @@ class RedirectClosure {
     return false;
   }
 
+  bool targetUsesArgumentsArray(Method method) {
+    return usesArgumentsArray.contains(getTransitiveRedirect(method));
+  }
+
 }
 
 /// Analyzes the AST of a method to determine if it redirects to another function using `x.apply(_, arguments)`.
 class RedirectFinder extends OnePassAbstractEvaluator {
 
   Method redirect;
+  bool usesArgumentsArray = false;
 
   RedirectFinder(Snapshot snapshot) : super(snapshot);
+
+  @override
+  visitNameExpression(NameExpression node) {
+    var value = super.visitNameExpression(node);
+    if (value is ArgumentsArray) {
+      usesArgumentsArray = true;
+    }
+    return value;
+  }
 
   @override
   visitCall(CallExpression node) {
