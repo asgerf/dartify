@@ -485,10 +485,19 @@ class RedirectClosure {
   }
 
   Method getTransitiveRedirect(Method method) {
+    Method anchor = method; // For cycle detection.
+    int reanchor = 4;
     Method next = getImmediateRedirect(method);
     while (next != null) {
       method = next;
       next = getImmediateRedirect(method);
+
+      // Detect cycle. Cycles are not there in practice, but just in case.
+      if (next == anchor) return anchor;
+      if (--reanchor == 0) {
+        anchor = method;
+        reanchor *= 2;
+      }
     }
     return method;
   }
