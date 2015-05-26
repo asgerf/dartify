@@ -8,6 +8,7 @@ import 'package:parsejs/parsejs.dart' as js;
 import 'package:dartify/jsnap.dart' as jsnap;
 import 'package:dartify/emitter.dart' as emitter;
 import 'package:dartify/model.dart' as model;
+import 'package:path/path.dart' as path;
 
 abort(String msg) {
   stderr.writeln(msg);
@@ -30,10 +31,15 @@ First-time setup:
 ''');
 }
 
+/// The dartify home directory.
+///
+final String dartifyBinDir = path.dirname(Platform.script.path);
+final String dartifyHomeDir = path.dirname(dartifyBinDir);
+
 String findJSnapCommand() {
-  File localInstall = new File('../node_modules/jsnap/jsnap.js');
-  if (localInstall.existsSync()) {
-    return localInstall.path;
+  String jsnapPath = path.join(dartifyHomeDir, 'node_modules/jsnap/jsnap.js');
+  if (new File(jsnapPath).existsSync()) {
+    return jsnapPath;
   } else {
     abort('jsnap not found. Please run `npm install`.');
   }
