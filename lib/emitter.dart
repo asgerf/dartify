@@ -9,8 +9,8 @@ String getClassName(Class clazz) {
 }
 
 final Set<String> UnsafeMemberNames = new Set.from([]);
-String getMemberName(Method method) {
-  String name = method.name;
+String getMemberName(Member member) {
+  String name = member.name;
   if (UnsafeMemberNames.contains(name)) return name + r'$';
   return name;
 }
@@ -76,6 +76,13 @@ void emit(Program program) {
 
     print(''); // Make some space.
 
+    for (Field field in clazz.instanceFields) {
+      String name = getMemberName(field);
+      print('  var $name;');
+    }
+    if (clazz.instanceFields.isNotEmpty && clazz.instanceMethods.isNotEmpty) {
+      print('');
+    }
     for (Method method in clazz.instanceMethods) {
       String name = getMemberName(method);
       if (method.parameters.isVarArgs) {
@@ -164,6 +171,12 @@ void emit(Program program) {
 
     print(''); // Make some space before the methods.
 
+    for (Field field in clazz.instanceFields) {
+      String name = getMemberName(field);
+      String jsname = field.name;
+      print('  get $name => jsvalue["$jsname"];');
+      print('  set $name(x) => jsvalue["$jsname"] = x;');
+    }
     for (Method method in clazz.instanceMethods) {
       String name = getMemberName(method);
       String jsname = method.name;

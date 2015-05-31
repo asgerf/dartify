@@ -543,6 +543,10 @@ abstract class request {
 abstract class Size {
   factory Size(value, base) = _Size;
 
+  var value;
+  var unit;
+  var convert;
+  var convertFrom;
 }
 
   abstract class _Proxy {
@@ -1124,5 +1128,13 @@ class _Size extends _Proxy implements Size {
   static JsObject _constructor = context["Cufon"]["CSS"]["Size"];
   _Size(value, base) : jsvalue = new JsObject(_constructor, [_(value), _(base)]);
 
+  get value => jsvalue["value"];
+  set value(x) => jsvalue["value"] = x;
+  get unit => jsvalue["unit"];
+  set unit(x) => jsvalue["unit"] = x;
+  get convert => jsvalue["convert"];
+  set convert(x) => jsvalue["convert"] = x;
+  get convertFrom => jsvalue["convertFrom"];
+  set convertFrom(x) => jsvalue["convertFrom"] = x;
 }
 

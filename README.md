@@ -47,10 +47,10 @@ Some tricks that are currently implemented:
 - Names of parameters are taken from the AST.
 - Detect redirect using `fun.apply(thisArg, arguments)`. Get parameter names from the effective target.
 - Detect var-args if arguments array is used in a non-redirecting way.
+- Detect instance fields based by looking for `this.x = E` in constructor.
 
 Some things on the TODO list:
 
-- Find instance fields.
 - Find top-level methods (i.e. things are not just static on a class)
 - Find static and top-level variables.
 - Infer optional parameters (maybe even names arguments).

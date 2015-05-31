@@ -7,6 +7,8 @@ import 'package:parsejs/parsejs.dart' hide Program, Property;
 import 'package:parsejs/parsejs.dart' as ast;
 import 'jsnap.dart';
 
+Set<String> blacklistFieldNames = new Set<String>.from(['toString']);
+
 Program dartify(Snapshot snapshot, ast.Program ast) {
   Namer namer = new Namer(snapshot);
   AstInfo astInfo = new AstInfo(ast);
@@ -104,7 +106,7 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
     // Generate the constructor.
     clazz.constructorParams = getParameters(constructor, prototype);
 
-    // Generate members.
+    // Generate instance methods.
     for (Property prty in prototype.properties) {
       String member = prty.name;
       if (member == 'constructor') continue;
@@ -118,7 +120,7 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
       }
     }
 
-    // Print static members
+    // Generate static methods
     for (Property prty in constructor.properties) {
       String member = prty.name;
       if (prty.value is! Obj) continue;
@@ -127,6 +129,18 @@ Program dartify(Snapshot snapshot, ast.Program ast) {
       if (constructors.contains(value)) continue; // Superclass pointer.
       Parameters params = getParameters(value, constructor);
       clazz.staticMethods.add(new model.Method(member, params));
+    }
+
+    // Generate instance fields.
+    Method constructorTarget = redirects.getTransitiveRedirect(constructorAsMethod);
+    if (constructorTarget.thisArg != constructor) {
+      constructorTarget = constructorAsMethod;
+    }
+    FunctionNode constructorNode = astInfo.getFunction(constructorAsMethod.function);
+    FieldInitializerFinder fieldFinder = new FieldInitializerFinder()..visit(constructorNode);
+    for (String fieldName in fieldFinder.fields) {
+      if (blacklistFieldNames.contains(fieldName)) continue;
+      clazz.instanceFields.add(new model.Field(fieldName));
     }
 
     program.classes.add(clazz);
@@ -549,6 +563,30 @@ class RedirectFinder extends OnePassAbstractEvaluator {
     return super.visitCall(node);
   }
 
+}
+
+/// Analyzes the AST of a constructor to determine which fields it initializes.
+class FieldInitializerFinder extends RecursiveVisitor {
+  final Set<String> fields = new Set<String>();
+
+  @override
+  visitAssignment(AssignmentExpression node) {
+    Expression left = node.left;
+    if (left is MemberExpression && left.object is ThisExpression) {
+      fields.add(left.property.value);
+    }
+    return super.visitAssignment(node);
+  }
+
+  @override
+  visitFunctionExpression(FunctionExpression node) {
+    return; // Don't look for `this.xxx` inside functions, where `this` could be bound to something else.
+  }
+
+  @override
+  visitFunctionDeclaration(FunctionDeclaration node) {
+    return;
+  }
 }
 
 String getLibraryNameFromFilename(String filename) {

@@ -12,15 +12,26 @@ class Class {
   Parameters constructorParams;
   List<Method> instanceMethods = <Method>[];
   List<Method> staticMethods = <Method>[];
+  List<Field> instanceFields = <Field>[];
 }
 
-class Method {
+abstract class Member {
+  String get name;
+}
+
+class Method implements Member {
   String name;
   Parameters parameters;
 
   String get paramString => parameters.paramString;
 
   Method(this.name, this.parameters);
+}
+
+class Field implements Member {
+  String name;
+
+  Field(this.name);
 }
 
 class Parameters {
