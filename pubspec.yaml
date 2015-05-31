@@ -4,5 +4,5 @@ description: A minimal command-line application.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  parsejs: "~1.0.3"
-  path: "~1.3.5"
+  parsejs: ">=1.0.0 <2.0.0"
+  path: ">=1.3.0 <2.0.0"
